@@ -3,36 +3,31 @@ const addButton = document.getElementsByTagName("button")[0];
 const incompleteTaskHolder = document.getElementById("incompleteTasks");
 const completedTasksHolder = document.getElementById("completed-tasks");
 
+const createElement = function (tagName, properties = {}) {
+  return Object.assign(document.createElement(tagName), properties);
+};
+
+const createDeleteButton = function () {
+  const button = createElement("button", { className: "delete" });
+  const icon = createElement("img", { src: "./remove.svg" });
+  button.appendChild(icon);
+  return button;
+};
+
 const createNewTaskElement = function (taskString) {
-  const listItem = document.createElement("li");
+  const listItem = createElement("li");
+  const checkBox = createElement("input", { type: "checkbox" });
+  const label = createElement("label", {
+    innerText: taskString,
+    className: "task",
+  });
+  const editInput = createElement("input", { type: "text", className: "task" });
+  const editButton = createElement("button", {
+    innerText: "Edit",
+    className: "edit",
+  });
 
-  const checkBox = document.createElement("input");
-  const label = document.createElement("label");
-  const editInput = document.createElement("input");
-  const editButton = document.createElement("button");
-
-  const deleteButton = document.createElement("button");
-  const deleteButtonImg = document.createElement("img");
-
-  label.innerText = taskString;
-  label.className = "task";
-
-  checkBox.type = "checkbox";
-  editInput.type = "text";
-  editInput.className = "task";
-
-  editButton.innerText = "Edit";
-  editButton.className = "edit";
-
-  deleteButton.className = "delete";
-  deleteButtonImg.src = "./remove.svg";
-  deleteButton.appendChild(deleteButtonImg);
-
-  listItem.appendChild(checkBox);
-  listItem.appendChild(label);
-  listItem.appendChild(editInput);
-  listItem.appendChild(editButton);
-  listItem.appendChild(deleteButton);
+  listItem.append(checkBox, label, editInput, editButton, createDeleteButton());
   return listItem;
 };
 
